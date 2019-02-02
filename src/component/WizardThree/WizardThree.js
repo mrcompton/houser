@@ -13,6 +13,13 @@ class WizardThree extends Component{
             rent: ''
         }
     }
+
+    componentDidMount(){
+        this.setState({
+            mortgage: this.props.mortgage,
+            rent: this.props.rent
+        })
+    }
     handleUpMortgage(val){
         this.setState({mortgage: val})
     }
@@ -22,11 +29,13 @@ class WizardThree extends Component{
 
     handleAddHouse(){
         const bodyObj = {
-            property_name: this.state.name,
-            address: this.state.address,
-            city: this.state.city,
-            state: this.state.state,
-            zip: this.state.zip
+            property_name: this.props.name,
+            address: this.props.address,
+            city: this.props.city,
+            state: this.props.state,
+            zip: this.props.zip,
+            mortgage: this.state.mortgage,
+            rent: this.state.rent
         }
 
         axios.post('/api/house',bodyObj)
@@ -34,14 +43,15 @@ class WizardThree extends Component{
     }
 
     render(){
+        const {mortgage,rent} = this.state;
         return(
             <div>
                 <h2>Add New Listing</h2>
                 <h3>Monthly Mortgage Amount</h3>
-                <input onChange ={(e) => this.handleUpMortgage(e.target.value)}></input>
+                <input onChange ={(e) => this.handleUpMortgage(e.target.value)} value = {this.state.mortgage}></input>
                 <h3>Desired Monthly Rent</h3>
-                <input onChange ={(e) => this.handleUpRent(e.target.value)}></input> 
-                <Link to='/wizard/step2' onClick={() => this.props.updateThree()}><button >Previous Step</button></Link>   
+                <input onChange ={(e) => this.handleUpRent(e.target.value)} value = {this.state.rent}></input> 
+                <Link to='/wizard/step2' onClick={() => this.props.updateThree(mortgage,rent)}><button >Previous Step</button></Link>   
                 <Link to='/'><button onClick={() => this.handleAddHouse()}>Complete</button></Link>     
             </div>
         )

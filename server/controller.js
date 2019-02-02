@@ -12,10 +12,12 @@ module.exports = {
             address: req.body.address,
             city: req.body.city,
             state: req.body.state,
-            zip: req.body.zip
+            zip: req.body.zip,
+            mortgage: req.body.monthly_mortgage_amount,
+            rent: req.body.desired_rent
         }
 
-        dbInstance.postHouse([newHouse.name,newHouse.address,newHouse.city,newHouse.state,newHouse.zip])
+        dbInstance.postHouse([newHouse.name,newHouse.address,newHouse.city,newHouse.state,newHouse.zip,newHouse.monthly_mortgage_amount, newHouse.desired_rent])
         .then(() => {res.sendStatus(200)})
         .catch((err) => {res.status(500).send(err)})
     },
